@@ -13,12 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Шаг для клонирования репозитория
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
+      # Шаг для установки Docker Buildx
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
+      # Шаг для кэширования Docker слоёв
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
@@ -27,10 +30,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      # Шаг для сборки Docker образа
       - name: Build Docker image
         run: |
           docker build -t myfastapiapp:latest .
 
+      # Шаг для деплоя на сервер
       - name: Deploy to server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
