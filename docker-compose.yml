@@ -3,5 +3,5 @@ services:
     image: my-backend-image:latest
     container_name: my-backend-container
     ports:
-      - 80:8000
+      - 8000:8000
     command: "python main.py"
