@@ -6,7 +6,7 @@ on:
       - main  # Workflow будет запускаться при пуше в ветку main
   pull_request:
     branches:
-      - main  # Также будет запускаться при создании PR в ветку main
+      - main  # Также будет запускаться при создании PR в эту ветку
 
 jobs:
   test:
