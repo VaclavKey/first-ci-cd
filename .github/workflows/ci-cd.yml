@@ -3,7 +3,7 @@ name: Docker Build and Deploy
 on:
   push:
     branches:
-      - main # Вы можете указать вашу ветку, например, `main` или `master`
+      - main
   pull_request:
     branches:
       - main
@@ -13,29 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Шаг для клонирования репозитория
       - name: Check out repository
         uses: actions/checkout@v3
 
-      # Шаг для установки Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # Шаг для кэширования Docker слоёв
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      # Шаг для сборки Docker образа
       - name: Build Docker image
         run: |
           docker build -t myfastapiapp:latest .
 
-      # Шаг для деплоя на сервер
       - name: Deploy to server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
